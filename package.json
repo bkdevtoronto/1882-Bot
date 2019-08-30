@@ -1,0 +1,19 @@
+{
+  "name": "1882-Bot",
+  "version": "1.0.0",
+  "description": "Moderator bot for r/coys",
+  "author": "u/magicwings",
+  "license": "MIT",
+  "homepage": "https://github.com/bkdevtoronto/1882-Bot#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bkdevtoronto/1882-Bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bkdevtoronto/1882-Bot/issues"
+  },
+  "engines": {
+    "npm": ">=5.5.0",
+    "node": ">=9.3.0"
+  }
+}
