@@ -1,3 +1,6 @@
+# Add in your subreddit here:
+_SUBREDDIT_ = "your_subreddit"
+
 # Dependencies
 import praw
 import sys
@@ -10,7 +13,7 @@ from log_it import log_it
 # Get the posts and stuff
 def get_posts(r):
     try:
-        for submission in r.subreddit("coys").new(limit=30):
+        for submission in r.subreddit(_SUBREDDIT_).new(limit=30):
             if submission.link_flair_text is None :
                 reply = '''**Please flair your post!**
 
