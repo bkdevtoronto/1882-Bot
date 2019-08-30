@@ -16,15 +16,43 @@ Generated output in console:
   <img width="700" src="https://i.imgur.com/e2kiHNe.png" alt="cli output"/>
 </p>
 
-## 🚀 Usage
+## 🌌 Features
 
-Make sure you have [npx](https://www.npmjs.com/package/npx) installed (`npx` is shipped by default since npm `5.2.0`)
+**1882-Bot** can do the following as of `1.0`:
 
-**1882-Bot** has the following features:
 * Action upon submissions based on flair (remove/approve, comment)
 * Generate message link for auto-action
 * Read inbox, act upon subject lines
 * Respond to messages, audit self comments
+
+## 🚀 Usage
+
+Make sure you have [npx](https://www.npmjs.com/package/npx) installed (`npx` is shipped by default since npm `5.2.0`)
+
+### ⚫ Step 1: Install PRAW
+
+If you don't already have PRAW (Python reddit API Wrapper) installed, you should install them using your preferred method or via the command line:
+
+    $ pip install praw
+
+### ⚫ Step 2: Clone the repository
+
+Clone using your preferred method or via the command line:
+
+    $ git clone https://github.com/bkdevtoronto/1882-Bot
+
+### ⚫ Step 3: Add your own configuration to `praw.ini`
+
+Open up `praw.ini` to add in the following:
+
+* Your bot's username and password
+* Your app's secret and key
+
+If you don't have an app, you can create one by visiting [reddit/prefs/apps](https://www.reddit.com/prefs/apps). Ensure it is created as a script type in your bot's account.
+
+### ⚫ Step 3: Add your own subreddit to `1882-Bot.py`
+
+Open up `1882-Bot.py` to add your own subreddit to the constant at the top.
 
 ## 🤝 Contributing
 
