@@ -8,7 +8,10 @@ import time
 from datetime import datetime, timedelta
 
 from bot_login import bot_login
-from log_it import log_it
+from log_it import log_it, getFileName
+
+# Get logfile for this session
+logfile=getFileName()
 
 # Get the posts and stuff
 def get_posts(r):
@@ -23,9 +26,9 @@ Once you've flaired your post, [send **1882-Bot** a message by clicking here.](h
                 comment = submission.reply(reply)
                 comment.mod.distinguish(sticky=True)
                 submission.mod.remove()
-                log_it("\nAlerted no-flair on: '" + str(submission.title) + "' (by " + str(submission.author) + " - " + str(submission.permalink) + ")" )
+                log_it(logfile, "\tAlerted no-flair on https://reddit.com/r/coys/comments/" + submission.id)
     except Exception as e:
-        log_it(e)
+        log_it(logfile, e)
 
 
 
@@ -39,19 +42,19 @@ def check_messages(r):
             if(subject[0] == "Flaired:"):
                 submission = r.submission(id=subject[1])
                 if submission is None :
-                    log_it("\tCouldn't find submission!")
+                    log_it(logfile, "\tCouldn't find submission!")
                     message.reply("We couldn't find your post. Try clicking on the submission link again, but ensure you keep the subject line the same!")
                 elif submission.link_flair_text is None :
-                    log_it("\tStill no flair, responding...")
+                    log_it(logfile, "\tStill no flair, responding...")
                     message.reply("We couldn't see your new flair. Please wait a bit and try again")
                 elif submission.link_flair_text[0:7] == "Removed" or submission.selftext == '[deleted]' :
 
                     # Post has been removed
-                    log_it("\tPost was removed already")
+                    log_it(logfile, "\tPost was removed already")
                 else:
 
                     # Unremove
-                    log_it("\tFlair suggestion worked! Approving post and removing comment...")
+                    log_it(logfile, "\tFlair suggestion worked! Approving post and removing comment...")
                     submission.mod.approve()
 
                     # Remove comment
@@ -59,10 +62,10 @@ def check_messages(r):
                         if top_level_comment.author == "1882-Bot" :
                             top_level_comment.mod.undistinguish()
                             top_level_comment.mod.remove()
-                            log_it("\t\tRemoved message from '" + submission.title[0:30] + "'...: https://reddit.com/r/coys/comments/" + submission.id)
+                            log_it(logfile, "\t\tRemoved message from https://reddit.com/r/coys/comments/" + submission.id)
 
                     #Receipt
-                    log_it("\tSending receipt...")
+                    log_it(logfile, "\tSending receipt...")
                     message.reply('''Thanks " + str(message.author) + ", I've approved your post!
 
 You can go there by [clicking on this link](" + str(submission.permalink) + ").
@@ -94,7 +97,7 @@ def check_comments(r):
                         # Submission has been flaired!
                         comment.mod.undistinguish()
                         comment.mod.remove()
-                        log_it("\tRemoved message from '" + submission.title[0:30] + "'...: https://reddit.com/r/coys/comments/" + submission.id)
+                        log_it(logfile, "\tRemoved message from https://reddit.com/r/coys/comments/" + submission.id)
                     elif datetime.now() - timedelta(hours=1) > datetime.fromtimestamp(submission.created_utc) :
 
                         # It's been longer than an hour. Give it a flair and edit the comment...
@@ -108,32 +111,34 @@ COYS'''
                         submission.flair.select("4a538d20-327a-11e8-b606-0ec2b090ed4e", "Removed by 1882-Bot")
                         comment.edit(new_comment)
                         comment.mod.approve()
-                        log_it("\tPost never flaired: '" + submission.title[0:30] + "'...: https://reddit.com/r/coys/comments/" + submission.id)
+                        log_it(logfile, "\tPost never flaired: https://reddit.com/r/coys/comments/" + submission.id)
                     else :
-                        log_it("\tComment still valid: '" + submission.title[0:30] + "'...: https://reddit.com/r/coys/comments/" + submission.id)
+                        log_it(logfile, "\tComment still valid: https://reddit.com/r/coys/comments/" + submission.id)
     except Exception as e:
         log_it(str(e))
 
 
-# Do it every 60 seconds (turned off because cron)
+# Do it every 60 seconds
 if __name__ == "__main__":
 
-    # while True:
-    try:
-        r = bot_login()
+    while True:
+        try:
+            r = bot_login()
 
-        log_it("Checking submissions...")
-        get_posts(r)
+            log_it(logfile, "Checking submissions...")
+            get_posts(r)
 
-        log_it("Checking inbox...")
-        check_messages(r)
+            log_it(logfile, "Checking inbox...")
+            check_messages(r)
 
-        log_it("Checking comments...")
-        check_comments(r)
-        log_it("Finished task!")
+            log_it(logfile, "Checking comments...")
+            check_comments(r)
 
-        # time.sleep(60)
-    except Exception as e:
-        log_it(e)
+            log_it(logfile, "Finished task!\n\t---------------------------")
+
+        except Exception as e:
+            log_it(str(e))
+
+        time.sleep(60)
 
     sys.exit()
