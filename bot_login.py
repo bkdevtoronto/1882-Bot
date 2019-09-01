@@ -1,11 +1,13 @@
 import praw
 import os
+import sys
 from log_it import log_it
+from config import config
 
-def bot_login():
-    log_it("Startup...")
+def bot_login(logfile):
     try:
-        r = praw.Reddit('1882bot', user_agent="1882-Bot")
+        r = praw.Reddit('mybot', user_agent=config["bot_username"])
     except:
-        log_it("Failed to log in!")
+        log_it(logfile, "Failed to log in!")
+        return False
     return r
