@@ -25,7 +25,7 @@ Generated output in console:
 * Read inbox, act upon subject lines
 * Respond to messages, audit self comments
 
-<p align="center">**1882-Bot** also has a super-easy self-edit configuration file that you can find at `config.py`</p>
+**1882-Bot** also has a super-easy self-edit configuration file that you can find at `config.py`
 
 ## 🚀 Usage
 
