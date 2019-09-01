@@ -18,12 +18,14 @@ Generated output in console:
 
 ## 🌌 Features
 
-**1882-Bot** can do the following as of `1.0`:
+**1882-Bot** can do the following as of `1.1`:
 
 * Action upon submissions based on flair (remove/approve, comment)
 * Generate message link for auto-action
 * Read inbox, act upon subject lines
 * Respond to messages, audit self comments
+
+<p align="center">**1882-Bot** also has a super-easy self-edit configuration file that you can find at `config.py`</p>
 
 ## 🚀 Usage
 
@@ -50,9 +52,9 @@ Open up `praw.ini` to add in the following:
 
 If you don't have an app, you can create one by visiting [reddit/prefs/apps](https://www.reddit.com/prefs/apps). Ensure it is created as a script type in your bot's account.
 
-### ⚫ Step 3: Add your own subreddit to `1882-Bot.py`
+### ⚫ Step 3: Add your details to `config.py`
 
-Open up `1882-Bot.py` to add your own subreddit to the constant at the top.
+Open up `config.py` to configure the bot to your specifications.
 
 ## 🤝 Contributing
 
