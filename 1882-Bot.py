@@ -18,7 +18,7 @@ def get_posts(r):
     try:
         for submission in r.subreddit(config["sub_name"]).new(limit=30):
             if submission.link_flair_text is None and config["moderate_flair"] is True:
-                comment = submission.reply("**Please flair your post!**" + config["flair_submission_reply"] + "\n\nOnce you've flaired your post, [send **" + config["bot_name"] + "** a message by clicking here.](https://www.reddit.com/message/compose/?to=" + config["bot_username"] + "&message=Post%20has%20been%20flaired!&subject=Flaired:%20" + submission.id + "). *Don\'t change the subject line so that **" + config["bot_name"] + "** knows what to do!*")
+                comment = submission.reply("**Please flair your post!**\n\n" + config["flair_submission_reply"] + "\n\nOnce you've flaired your post, [send **" + config["bot_name"] + "** a message by clicking here.](https://www.reddit.com/message/compose/?to=" + config["bot_username"] + "&message=Post%20has%20been%20flaired!&subject=Flaired:%20" + submission.id + "). *Don\'t change the subject line so that **" + config["bot_name"] + "** knows what to do!*")
                 comment.mod.distinguish(sticky=True)
                 submission.mod.remove()
                 log_it(logfile, "\tAlerted no-flair on https://reddit.com/r/" + config["sub_name"] + "/comments/" + submission.id)
