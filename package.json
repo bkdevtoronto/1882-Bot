@@ -1,19 +1,27 @@
 {
-  "name": "1882-Bot",
-  "version": "1.0.0",
-  "description": "Moderator bot for r/coys",
-  "author": "u/magicwings",
-  "license": "MIT",
-  "homepage": "https://github.com/bkdevtoronto/1882-Bot#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bkdevtoronto/1882-Bot.git"
-  },
-  "bugs": {
-    "url": "https://github.com/bkdevtoronto/1882-Bot/issues"
-  },
-  "engines": {
-    "npm": ">=5.5.0",
-    "node": ">=9.3.0"
-  }
+    "name": "1882-Bot",
+    "version": "1.0.0",
+    "description": "Moderator bot for r/coys",
+    "contributors": ["u/magicwings", "Ben Kahan", "Ben Kahan Development", "BKDev Toronto"],
+    "keywords" : ["moderator", "reddit", "bot"],
+    "author": "u/magicwings",
+    "license": "MIT",
+    "homepage": "https://github.com/bkdevtoronto/1882-Bot#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bkdevtoronto/1882-Bot.git"
+    },
+    "bugs": {
+        "url": "https://github.com/bkdevtoronto/1882-Bot/issues"
+    },
+    "engines": {
+        "npm": ">=5.5.0",
+        "node": ">=9.3.0"
+    },
+    "dependencies": {
+        "praw": "^6.3.1",
+        "python-dateutil" : "^2.8.0",
+        "pywin32" : "^224",
+        "setuptools" : "^40.6.2"
+    }
 }
