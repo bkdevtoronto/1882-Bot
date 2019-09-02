@@ -29,7 +29,23 @@
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-      <div class="container"><a class="navbar-brand" href="#download">Download <em>1882Bot</em> Now</a></div>
+      <div class="container">
+          <a class="navbar-brand" href="#download">Download <em>1882Bot</em> Now</a>
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              Menu
+              <i class="fas fa-bars"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                      <a class="nav-link js-scroll-trigger" href="#download">Download</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link js-scroll-trigger" href="#generator">Config Generator</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
     </nav>
 
 
@@ -59,7 +75,7 @@
       </div>
     </header>
 
-    <section class="download bg-primary " id="download">
+    <section class="download bg-primary" id="download">
       <div class="container">
           <div class="row">
               <div class="col-md-8 mx-auto">
@@ -86,22 +102,147 @@
                   <p>Finally, open up the configuration file at <code>config.py</code> where you can add your bot's details, sub details, and turn on and off features.</p>
                   <p>You can even customise the messages, flairs and other actions that <em>1882-Bot</em> takes.</p>
               </div>
+
+          </div>
+          <div class="text-center mt-4 mb-0">
+              <img src="img/cock.png" class="img-fluid" alt="" />
           </div>
       </div>
     </section>
 
+    <section class="bg-secondary download" id="generator">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <h2 class="section-heading">Config Generator</h2>
+                    <form>
+                        <!-- Text input-->
+                        <div class="form-group row">
+                            <label class="col-md-4 control-label" for="bot_username">Bot Username</label>
+                            <div class="col-md-8">
+                                <input id="bot_username" name="bot_username" type="text" placeholder="foo" class="form-control input-md">
+                                <span class="help-block">Your bot's username, i.e. u/{foo}</span>
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group row">
+                            <label class="col-md-4 control-label" for="bot_name">Bot Name</label>
+                            <div class="col-md-8">
+                                <input id="bot_name" name="bot_name" type="text" placeholder="FooBot 3000" class="form-control input-md">
+                                <span class="help-block">The name to give your bot, i.e. {FooBot 3000}</span>
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group row">
+                            <label class="col-md-4 control-label" for="sub_name">Subreddit Name</label>
+                            <div class="col-md-8">
+                                <input id="sub_name" name="sub_name" type="text" placeholder="bar" class="form-control input-md">
+                                <span class="help-block">The subreddit you want to monitor, i.e. r/{bar}</span>
+                            </div>
+                        </div>
+
+                        <!-- Multiple Radios -->
+                        <div class="form-group row">
+                            <label class="col-md-4 control-label" for="flair_check">Moderate Flair?</label>
+                            <div class="col-md-8">
+                                <div class="radio">
+                                    <label for="flair_check-0">
+                                        <input type="radio" name="flair_check" id="flair_check-0" value="true" checked="checked">
+                                        Yes please
+                                    </label>
+                                    <label for="flair_check-1">
+                                        <input type="radio" name="flair_check" id="flair_check-1" value="false">
+                                        No thanks
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Textarea -->
+                        <div class="form-group row">
+                            <label class="col-md-4 control-label" for="flair_submission_reply">Flair Submission Reply</label>
+                            <div class="col-md-8">
+                                <input class="form-control input-md" id="flair_submission_reply" name="flair_submission_reply" placeholder="In /r/coys, we're having a trial period where we require all posts to be flaired appropriately. [You can find out more details and discuss this here](https://reddit.com/r/coys/comments/cw3n72/)." />
+                                <span class="help-block">Auto reply body for submissions which don't have a flair (already ahs header and footer)</span>
+                            </div>
+                        </div>
+
+                        <!-- Textarea -->
+                        <div class="form-group row">
+                            <label class="col-md-4 control-label" for="flair_success_reply">Flair Success Reply</label>
+                            <div class="col-md-8">
+                                <input class="form-control input-md" id="flair_success_reply" name="flair_success_reply" placeholder="COYS!" />
+                                <span class="help-block">Append this to the auto-edit message to 1882-Bot's comment when a user flairs their post (already has body)</span>
+                            </div>
+                        </div>
+
+                        <!-- Textarea -->
+                        <div class="form-group row">
+                            <label class="col-md-4 control-label" for="flair_failure_edit">Flair Failure Edit</label>
+                            <div class="col-md-8">
+                                <input class="form-control input-md" id="flair_failure_edit" name="flair_failure_edit" placeholder="For more information, [see this post](https://reddit.com/r/coys/comments/cw3n72/).\n\nCOYS" />
+                                <span class="help-block">Append message to end of autoedit to users who did not flair their post in time (already has body)</span>
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group row">
+                            <label class="col-md-4 control-label" for="flair_failure_flair_text">Post Removed Flair Text</label>
+                            <div class="col-md-8">
+                                <input id="flair_failure_flair_text" name="flair_failure_flair_text" type="text" placeholder="Removed by 1882-Bot" class="form-control input-md" required="" />
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group row">
+                            <label class="col-md-4 control-label" for="flair_failure_flair_id">Post Removed Flair ID</label>
+                            <div class="col-md-8">
+                                <input id="flair_failure_flair_id" name="flair_failure_flair_id" type="text" placeholder="4a538d20-327a-11e8-b606-0ec2b090ed4e" class="form-control input-md">
+                                <span class="help-block">Flair details when flairing to remove post for failure to flair. Find this at reddit.com/r/your_sub?styling=true and navigate to Post Flairs</span>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button class="btn btn-success btn-xl" onclick="download('config.py')">Create &amp; Download</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- <section class="cta">
+        <div class="cta-content">
+            <div class="container">
+                <div class="row">
+                    <div class="text-center col-lg-4 mx-auto">
+                        <img src="img/cock.png" class="img-fluid" alt="" />
+                    </div>
+                    <div class="col-lg-8 my-auto text-right">
+                        <h2>Made for<br/><a href="https://reddit.com/r/coys">r/coys</a></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="overlay"></div>
+    </section> -->
+
     <footer>
-      <div class="container">
-          <p>by BKDev Toronto 2019</p>
-          <ul class="list-inline">
-              <li class="list-inline-item">
-                  <a href="https://github.com/bkdevtoronto/1882-Bot">GitHub Repository</a>
-              </li>
-              <li class="list-inline-item">
-                  <a href="https://github.com/bkdevtoronto/1882-Bot/blob/master/LICENSE">Licensed under MIT</a>
-              </li>
-          </ul>
-      </div>
+        <div class="container">
+            <p>by BKDev Toronto 2019</p>
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <a href="https://github.com/bkdevtoronto/1882-Bot">GitHub Repository</a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="https://github.com/bkdevtoronto/1882-Bot/blob/master/LICENSE">Licensed under MIT</a>
+                </li>
+            </ul>
+        </div>
     </footer>
 
     <!-- Bootstrap core JavaScript -->
@@ -113,6 +254,38 @@
 
     <!-- Custom scripts for this template -->
     <script src="js/new-age.min.js"></script>
+
+    <script type="text/javascript">
+        function createConfig() {
+            var output = {
+                "bot_username" : $("#bot_username").val(),
+                "bot_name" : $("#bot_name").val(),
+                "sub_name" : $("#sub_name").val(),
+                "moderate_flair" : $("#flair_check-0").prop("checked"),
+                "flair_submission_reply" : $("#flair_submission_reply").val(),
+                "flair_success_reply" : $("#flair_success_reply").val(),
+                "flair_failure_edit" : $("#flair_failure_edit").val(),
+                "flair_failure_flair_id" : $("#flair_failure_flair_id").val(),
+                "flair_failure_flair_text" : $("#flair_failure_flair_text").val()
+            };
+
+            return JSON.stringify(output, null, 4);
+        }
+
+        function download(filename) {
+            var text = "config = " + createConfig();
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+    </script>
 
 </body>
 

@@ -1,3 +1,7 @@
+* {
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
+
 em {
     font-weight: 800;
     font-style: normal;
@@ -8,7 +12,6 @@ em {
     color: #fdcc52;
 }
 
-
 em:hover { border-bottom-color: white; }
 
 header.masthead {
@@ -18,3 +21,36 @@ header.masthead {
 #download a { color: #000; }
 #download a:hover { color: #0f204b; }
 #download em { color: white; }
+
+section.cta .cta-content h2 { max-width: none; }
+
+.bg-secondary {
+    background: #3db7e4;
+    background: -webkit-gradient(linear,left top,left bottom,from(#3db7e4),to(#0f204b));
+    background: linear-gradient(#3db7e4,#0f204b);
+    color: white;
+}
+
+.help-block {
+    font-size: 80%;
+    color: #ccc;
+    display: block;
+    text-align: right;
+    line-height: 2em;
+}
+
+.radio label {
+    margin-right: 1em;
+}
+
+label {
+    line-height: 38px;
+}
+
+.download form label {
+    text-align: right;
+}
+
+.download .form-group.row {
+    border-bottom: 1px solid rgba(220,220,220,0.1);
+}
