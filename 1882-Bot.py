@@ -9,6 +9,7 @@ from bot_login import bot_login
 from log_it import log_it, getFileName
 
 import flair
+import mentions
 
 # Get logfile for this session
 logfile=getFileName()
@@ -36,6 +37,9 @@ def check_messages(r):
             subject = message.subject.split()
             if config["moderate_flair"] is True and subject[0] == "Flaired:":
                 flair.messages_flair(r, message, logfile)
+
+        if config["moderate_mentions"] is True:
+            mentions.messages_mentions(r, message, logfile)
 
     except Exception as e:
         log_it(logfile, str(e))
