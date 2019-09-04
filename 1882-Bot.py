@@ -33,10 +33,12 @@ def check_messages(r):
     try:
         # Only select unread messages
         for message in r.inbox.unread(limit=None):
-            # Flair
             subject = message.subject.split()
             if config["moderate_flair"] is True and subject[0] == "Flaired:":
                 flair.messages_flair(r, message, logfile)
+
+            if config["moderate_mentions"] is True and subject[0] == "ResetTheCounter:" :
+                mentions.message_resetthecounter(r, message, logfile)
 
         if config["moderate_mentions"] is True:
             mentions.messages_mentions(r, message, logfile)
@@ -52,6 +54,7 @@ def check_comments(r):
             if comment.removed is not True and comment.approved is not True:
                 if config["moderate_flair"] is True :
                     flair.messages_comment(r, comment, logfile)
+
     except Exception as e:
         log_it(logfile, str(e))
 
