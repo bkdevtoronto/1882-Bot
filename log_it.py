@@ -3,7 +3,7 @@ import os
 import logging
 from time import gmtime, strftime
 
-fileName="docs/1882" # Set your filename here
+fileName="logs/1882" # Set your filename here
 
 def tooBig(name):
     if os.path.exists(name) is True:
