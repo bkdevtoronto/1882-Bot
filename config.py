@@ -37,8 +37,9 @@ config = {
         # Find this at reddit.com/r/your_sub?styling=true and navigate to Post Flairs
 
     "moderate_mentions" : True,
-    "mention_resetthecounter_reply_mod" : "Thanks for the heads up, I'll do your job for you.\n\nCOYS, I guess?",
+    "mention_resetthecounter_reply_mod" : "Thanks for the heads up, I'll update the sidebar. You're welcome.\n\nCOYS",
     "mention_resetthecounter_reply_user" : "Thanks for the heads up, I'll alert the mods.\n\nCOYS",
     "mention_resetthecounter_flair_id" : "4b9c8952-7168-11e8-833e-0e6be7fce3be",
-    "mention_resetthecounter_flair_text" : "Reset the Counter"
+    "mention_resetthecounter_flair_text" : "Reset the Counter",
+    "mention_resetthecounter_widgetname" : "Ticket Question Free Since..."
 }
