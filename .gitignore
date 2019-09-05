@@ -1,4 +1,4 @@
 *.pyc
 _pychache_/*
-logs/
-data/
+*/logs/*.log
+*/data/*

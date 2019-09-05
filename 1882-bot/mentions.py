@@ -46,7 +46,7 @@ def messages_mentions(r, message, logfile):
                                         record = days_ago
                                         untildate = newdate.strptime("%d %b %Y")
 
-                                    newtext = "**["+str(submission.title).encode('utf-8')+"](https://www.reddit.com/r/coys/comments/"+str(submission.id)+")** - u/"+str(submission.author)+" on "+str(newdate)+"  \n*posted "+str(days_ago)+" days after the one before*\n\n**RECORD: "+str(record)+" DAYS**  \n*(until "+str(untildate)+")*\n\n*[Why is this here?](https://www.reddit.com/r/coys/comments/7uvbp4/)*"
+                                    newtext = f"**[{submission.title}](https://www.reddit.com/r/coys/comments/{submission.id})** - u/{submission.author} on {newdate}  \n*posted {days_ago} days after the one before*\n\n**RECORD: {record} DAYS**  \n*(until {untildate})*\n\n*[Why is this here?](https://www.reddit.com/r/coys/comments/7uvbp4/)*".encode("ascii")
                                     widget.mod.update(text=newtext)
                                     log_it(logfile, "\t\tUpdated sidebar widget")
                                     break
@@ -57,6 +57,7 @@ def messages_mentions(r, message, logfile):
                         reply.mod.distinguish()
                         submission.report("Possible Counter Reset situation", "[This post has been reported](https://reddit.com/r/" + config["sub_name"] + "/comments/" + submission.id +") to u/1882-Bot as a possible infringement.\n\n[Click here to send a confirmation message](https://www.reddit.com/message/compose/?to=" + config["bot_username"] + "&message=Naughty%20fuckin%20ticket%20post!&subject=ResetTheCounter:%20" + submission.id + ") or ignore to decline.")
 
+                    print(comment.id)
                     datahandler.addTo("mentions", comment.id)
     except Exception as e:
         log_it(logfile, str(e))
