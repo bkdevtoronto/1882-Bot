@@ -22,9 +22,9 @@ def messages_mentions(r, message, logfile):
                 if request == "resetthecounter" :
                     if comment.author in mods:
                         log_it(logfile, "\tMod request: ResetTheCounter https://reddit.com/r/" + config["sub_name"] + "/comments/" + submission.id)
-                        reply = comment.reply(config["mention_resetthecounter_reply_mod"])
-                        reply.mod.distinguish()
-                        submission.flair.select(config["mention_resetthecounter_flair_id"], config["mention_resetthecounter_flair_text"])
+                        # reply = comment.reply(config["mention_resetthecounter_reply_mod"])
+                        # reply.mod.distinguish()
+                        # submission.flair.select(config["mention_resetthecounter_flair_id"], config["mention_resetthecounter_flair_text"])
 
                         # Do widget
                         if config["mention_resetthecounter_widgetname"] is not "" :
@@ -47,7 +47,8 @@ def messages_mentions(r, message, logfile):
                                         untildate = newdate.strptime("%d %b %Y")
 
                                     newtext = f"**[{submission.title}](https://www.reddit.com/r/coys/comments/{submission.id})** - u/{submission.author} on {newdate}  \n*posted {days_ago} days after the one before*\n\n**RECORD: {record} DAYS**  \n*(until {untildate})*\n\n*[Why is this here?](https://www.reddit.com/r/coys/comments/7uvbp4/)*".encode("ascii")
-                                    widget.mod.update(text=newtext)
+                                    # widget.mod.update(text=newtext)
+                                    r.subreddit('coys').message('Sidebar Widget Reset', f"The counter has been reset! Code for the updated sidebar is:\n\n{newtext}\n\n---  \nCOYS")
                                     log_it(logfile, "\t\tUpdated sidebar widget")
                                     break
 
@@ -57,7 +58,6 @@ def messages_mentions(r, message, logfile):
                         reply.mod.distinguish()
                         submission.report("Possible Counter Reset situation", "[This post has been reported](https://reddit.com/r/" + config["sub_name"] + "/comments/" + submission.id +") to u/1882-Bot as a possible infringement.\n\n[Click here to send a confirmation message](https://www.reddit.com/message/compose/?to=" + config["bot_username"] + "&message=Naughty%20fuckin%20ticket%20post!&subject=ResetTheCounter:%20" + submission.id + ") or ignore to decline.")
 
-                    print(comment.id)
                     datahandler.addTo("mentions", comment.id)
     except Exception as e:
         log_it(logfile, str(e))
