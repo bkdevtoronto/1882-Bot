@@ -5,6 +5,11 @@ from log_it import log_it
 import re
 import datetime
 
+
+
+# TESTING
+import logging
+
 def messages_mentions(r, message, logfile):
     log_it(logfile, "Checking mentions...")
     try:
@@ -22,9 +27,9 @@ def messages_mentions(r, message, logfile):
                 if request == "resetthecounter" :
                     if comment.author in mods:
                         log_it(logfile, "\tMod request: ResetTheCounter https://reddit.com/r/" + config["sub_name"] + "/comments/" + submission.id)
-                        # reply = comment.reply(config["mention_resetthecounter_reply_mod"])
-                        # reply.mod.distinguish()
-                        # submission.flair.select(config["mention_resetthecounter_flair_id"], config["mention_resetthecounter_flair_text"])
+                        reply = comment.reply(config["mention_resetthecounter_reply_mod"])
+                        reply.mod.distinguish()
+                        submission.flair.select(config["mention_resetthecounter_flair_id"], config["mention_resetthecounter_flair_text"])
 
                         # Do widget
                         if config["mention_resetthecounter_widgetname"] is not "" :
@@ -33,10 +38,15 @@ def messages_mentions(r, message, logfile):
                             for widget in widgets.sidebar :
                                 if widget.shortName == config["mention_resetthecounter_widgetname"] :
                                     text = widget.text
-                                    olddate = re.findall("\- u\/[^\s]* on (.*)\n", text)[0]
+                                    olddate = re.findall("\- by u\/[^\s]* on (.*)", text)[0]
                                     record = int(re.findall("\*\*RECORD\: ([^\s]*)\sDAYS\*\*", text)[0])
                                     untildate = re.findall("\*\(until ([^\)]*)\)\*", text)[0].strip()
                                     newdate = datetime.datetime.today().strftime("%d %b %Y")
+
+                                    if submission.author is None:
+                                        author = "[deleted]"
+                                    else :
+                                        author = submission.author
 
                                     d1 = datetime.datetime.strptime(olddate.strip(), "%d %b %Y")
                                     d2 = datetime.datetime.today()
@@ -46,10 +56,24 @@ def messages_mentions(r, message, logfile):
                                         record = days_ago
                                         untildate = newdate.strptime("%d %b %Y")
 
-                                    newtext = f"**[{submission.title}](https://www.reddit.com/r/coys/comments/{submission.id})** - u/{submission.author} on {newdate}  \n*posted {days_ago} days after the one before*\n\n**RECORD: {record} DAYS**  \n*(until {untildate})*\n\n*[Why is this here?](https://www.reddit.com/r/coys/comments/7uvbp4/)*".encode("ascii")
-                                    # widget.mod.update(text=newtext)
-                                    r.subreddit('coys').message('Sidebar Widget Reset', f"The counter has been reset! Code for the updated sidebar is:\n\n{newtext}\n\n---  \nCOYS")
+                                    newtext = "[" + submission.title + "]"
+                                    newtext = newtext + "(https://reddit.com/r/" + config["sub_name"] + "/comments/" + submission.id + ")"
+                                    newtext = newtext + " - by u/" + author
+                                    newtext = newtext + " on " + newdate
+                                    newtext = newtext + "  \n*posted " + str(days_ago) + " days after the one before*"
+                                    newtext = newtext + "  \n\n**RECORD: " + str(record) + " DAYS**"
+                                    newtext = newtext + "  \n*(until " + untildate + ")*"
+                                    newtext = newtext + "  \n\n*[Why is this here?](https://reddit.com/r/coys/comments/7uvbp4/)*"
+
+                                    # Update and execute
+                                    widget.mod.update(text=newtext)
                                     log_it(logfile, "\t\tUpdated sidebar widget")
+
+                                    msgtext = "Sidebar Widget update text:  \n\n---\n\n" + newtext.replace("*", "\*")
+
+                                    r.subreddit(config["sub_name"]).message("Sidebar Widget", msgtext)
+                                    r.redditor("magicwings").message("Sidebar Widget", msgtext)
+
                                     break
 
                     else :
