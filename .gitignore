@@ -2,3 +2,5 @@
 _pychache_/*
 */logs/*.log
 */data/*
+*.lnk
+desktop.ini
