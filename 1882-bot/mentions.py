@@ -15,7 +15,6 @@ def messages_mentions(r, message, logfile):
     try:
         history = datahandler.get("mentions")
         mods = r.subreddit(config["sub_name"]).moderator()
-
         for message in r.inbox.mentions(limit=30):
             # Get important variables
             comment = r.comment(id=message.id)
@@ -83,6 +82,7 @@ def messages_mentions(r, message, logfile):
                         submission.report("Possible Counter Reset situation", "[This post has been reported](https://reddit.com/r/" + config["sub_name"] + "/comments/" + submission.id +") to u/1882-Bot as a possible infringement.\n\n[Click here to send a confirmation message](https://www.reddit.com/message/compose/?to=" + config["bot_username"] + "&message=Naughty%20fuckin%20ticket%20post!&subject=ResetTheCounter:%20" + submission.id + ") or ignore to decline.")
 
                     datahandler.addTo("mentions", comment.id)
+                    log_it(logfile, "\t\tUpdated 'Mentions' list data: comment ID " + str(comment.id))
     except Exception as e:
         log_it(logfile, str(e))
 
