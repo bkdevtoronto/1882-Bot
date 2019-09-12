@@ -1,8 +1,11 @@
 import os
 
+# Add your data location here
+data_location = "../data/"
+
 # Read array from file
 def get(file):
-    file="data/"+file
+    file=data_location+file
     ret = []
     try:
         f = open(file, "r+")
