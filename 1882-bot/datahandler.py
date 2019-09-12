@@ -1,13 +1,21 @@
 import os
+import config
 
-# Add your data location here
-data_location = "../data/"
+data_location=config.config["dataDirectory"]
+
+if not os.path.exists(data_location):
+    os.makedirs(data_location)
 
 # Read array from file
 def get(file):
     file=data_location+file
     ret = []
     try:
+        if not os.path.exists(file) :
+            t = open(file, "w")
+            t.close()
+            return []
+
         f = open(file, "r+")
         for line in f:
             ret.append(line[:-1])

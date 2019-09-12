@@ -1,5 +1,10 @@
 config = {
 
+    ### Settings <=================
+
+    "logDirectory" : "logs/",
+    "dataDirectory" : "data/",
+
     ### Bot <======================
 
     "bot_username" : "1882-Bot",

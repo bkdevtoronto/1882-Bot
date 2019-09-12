@@ -1,9 +1,13 @@
 import praw
 import os
 import logging
+import config
 from time import gmtime, strftime
 
-fileName="logs/1882" # Set your filename here
+if not os.path.exists(config.config["logDirectory"]):
+    os.makedirs(config.config["logDirectory"])
+
+fileName=config.config["logDirectory"] + "log"
 
 def tooBig(name):
     if os.path.exists(name) is True:
