@@ -62,24 +62,25 @@ def messages_mentions(r, message, logfile):
                                     newtext = newtext + "  \n*posted " + str(days_ago) + " days after the one before*"
                                     newtext = newtext + "  \n\n**RECORD: " + str(record) + " DAYS**"
                                     newtext = newtext + "  \n*(until " + untildate + ")*"
-                                    newtext = newtext + "  \n\n*[Why is this here?](https://reddit.com/r/coys/comments/7uvbp4/)*"
+                                    newtext = newtext + "  \n\n*[Why is this here?](https://reddit.com/r/coys/comments/7uvbp4/) *"
 
                                     # Update and execute
                                     widget.mod.update(text=newtext)
                                     log_it(logfile, "\t\tUpdated sidebar widget")
 
-                                    msgtext = "Sidebar Widget update text:  \n\n---\n\n" + newtext.replace("*", "\*")
+                                    # Send message for legacy sidebar
+                                    pattern = re.compile(r"([\[\]\(\*])")
+                                    msgtext = pattern.sub(r"\\\1", newtext)
+                                    msgtext = "Sidebar Widget update text:  \n\n---\n\n" + msgtext
 
                                     r.subreddit(config["sub_name"]).message("Sidebar Widget", msgtext)
-                                    r.redditor("magicwings").message("Sidebar Widget", msgtext)
-
                                     break
 
                     else :
                         log_it(logfile, "\tUser request: ResetTheCounter https://reddit.com/r/" + config["sub_name"] + "/comments/" + submission.id)
                         reply = comment.reply(config["mention_resetthecounter_reply_user"])
-                        reply.mod.distinguish()
                         submission.report("Possible Counter Reset situation", "[This post has been reported](https://reddit.com/r/" + config["sub_name"] + "/comments/" + submission.id +") to u/1882-Bot as a possible infringement.\n\n[Click here to send a confirmation message](https://www.reddit.com/message/compose/?to=" + config["bot_username"] + "&message=Naughty%20fuckin%20ticket%20post!&subject=ResetTheCounter:%20" + submission.id + ") or ignore to decline.")
+                        reply.mod.distinguish()
 
                     datahandler.addTo("mentions", comment.id)
                     log_it(logfile, "\t\tUpdated 'Mentions' list data: comment ID " + str(comment.id))
