@@ -10,6 +10,7 @@ from log_it import log_it, getFileName
 
 import flair
 import mentions
+import curl
 
 # Get logfile for this session
 logfile=getFileName()
@@ -40,8 +41,12 @@ def check_messages(r):
             if config["moderate_mentions"] is True and subject[0] == "ResetTheCounter:" :
                 mentions.message_resetthecounter(r, message, logfile)
 
+            if config["reply_curl"] is True:
+                curl.messages_respond(r, message, logfile)
+
             if config["moderate_mentions"] is True:
                 mentions.messages_mentions(r, message, logfile)
+
 
     except Exception as e:
         log_it(logfile, str(e))

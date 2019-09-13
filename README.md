@@ -14,7 +14,7 @@ Generated output in console:
 
 <p align="center">
   <img width="700" src="https://i.imgur.com/MGj0BvR.png" alt="cli output 1"/>
-  
+
   <img width="700" src="https://i.imgur.com/Ufo6xyv.png" alt="cli output 2"/>
 </p>
 
@@ -26,6 +26,10 @@ Generated output in console:
 * Generate message link for auto-action
 * Read inbox, act upon subject lines
 * Respond to messages, audit self comments
+
+**Actions include:**
+
+* Send a message with subject "stats" (any body) to receive reddit-markdown formatted message with sidebar output
 
 **1882-Bot** also has a super-easy self-edit configuration file that you can find at `config.py`
 

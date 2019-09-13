@@ -4,6 +4,7 @@ config = {
 
     "logDirectory" : "logs/",
     "dataDirectory" : "data/",
+        # Set your log and data directories (local with trailing slash)
 
     ### Bot <======================
 
@@ -17,6 +18,18 @@ config = {
 
     "sub_name" : "coys",
         # [string, required] The subreddit you want to monitor, i.e. r/{foo}
+
+    ### cURL/Stat Checks <=========
+
+    "reply_curl" : True,
+        ## Global setting to check for external data <--------------------------
+        # [bool] Set whether you want 1882-Bot to respond to stat request
+
+    "curl_club_name" : "Spurs",
+        # Check on https://www.theguardian.com/football/premierleague/table for your team's name
+
+    "curl_stat_url" : "https://www.bbc.com/sport/football/teams/tottenham-hotspur/top-scorers",
+        # Modify this for your team's BBC stat page
 
     ### Flair <====================
 
