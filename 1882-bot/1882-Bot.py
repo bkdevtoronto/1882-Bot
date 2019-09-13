@@ -40,8 +40,8 @@ def check_messages(r):
             if config["moderate_mentions"] is True and subject[0] == "ResetTheCounter:" :
                 mentions.message_resetthecounter(r, message, logfile)
 
-        if config["moderate_mentions"] is True:
-            mentions.messages_mentions(r, message, logfile)
+            if config["moderate_mentions"] is True:
+                mentions.messages_mentions(r, message, logfile)
 
     except Exception as e:
         log_it(logfile, str(e))
