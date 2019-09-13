@@ -13,7 +13,9 @@ Example comments and messages:
 Generated output in console:
 
 <p align="center">
-  <img width="700" src="https://i.imgur.com/e2kiHNe.png" alt="cli output"/>
+  <img width="700" src="https://i.imgur.com/MGj0BvR.png" alt="cli output 1"/>
+  
+  <img width="700" src="https://i.imgur.com/Ufo6xyv.png" alt="cli output 2"/>
 </p>
 
 ## 🌌 Features
