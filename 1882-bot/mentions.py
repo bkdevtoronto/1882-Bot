@@ -18,9 +18,9 @@ def messages_mentions(r, message, logfile):
         for message in r.inbox.mentions(limit=30):
             # Get important variables
             comment = r.comment(id=message.id)
-            message = comment.body.split("\n")[0].split(" ")[1:]
+            msgtext = comment.body.split("\n")[0].split(" ")[1:]
             submission = r.submission(id=comment.link_id[3:])
-            request = message[0].lower()
+            request = msgtext[0].lower()
 
             if comment.subreddit.display_name.lower() == config["sub_name"].lower() and comment.id not in history :
                 if request == "resetthecounter" :
@@ -36,6 +36,7 @@ def messages_mentions(r, message, logfile):
                             widgets = r.subreddit(config["sub_name"]).widgets
                             for widget in widgets.sidebar :
                                 if widget.shortName == config["mention_resetthecounter_widgetname"] :
+                                    log_it(logfile, "Test: found widget")
                                     # Update and execute
                                     newtext = generate_widget(submission, widget.text)
                                     widget.mod.update(text=newtext[0])
@@ -116,7 +117,7 @@ def generate_widget(submission, original):
 
     newtext = "[" + submission.title + "]"
     newtext = newtext + "(https://reddit.com/r/" + config["sub_name"] + "/comments/" + submission.id + ")"
-    newtext = newtext + " - by u/" + author
+    newtext = newtext + " - by u/" + str(author)
     newtext = newtext + " on " + newdate
     newtext = newtext + "  \n*posted " + str(days_ago) + " days after the one before*"
     newtext = newtext + "  \n\n**RECORD: " + str(record) + " DAYS**"
