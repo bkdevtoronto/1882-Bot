@@ -3,6 +3,7 @@ import praw
 import sys
 import time
 from datetime import datetime, timedelta
+import datahandler
 
 from config import config
 from bot_login import bot_login
@@ -31,8 +32,8 @@ def get_posts(r):
 
 # Check messages for updated posts
 def check_messages(r):
+    # messages
     try:
-        # Only select unread messages
         for message in r.inbox.unread(limit=None):
             subject = message.subject.split()
             if config["moderate_flair"] is True and subject[0] == "Flaired:":
@@ -44,12 +45,20 @@ def check_messages(r):
             if config["reply_curl"] is True:
                 curl.messages_respond(r, message, logfile)
 
-            if config["moderate_mentions"] is True:
-                mentions.messages_mentions(r, message, logfile)
-
 
     except Exception as e:
         log_it(logfile, str(e))
+
+    # mentions
+    if config["moderate_mentions"] is True:
+        try:
+            mods = r.subreddit(config["sub_name"]).moderator()
+            history = datahandler.get("mentions")
+            for message in r.inbox.mentions(limit=30):
+                mentions.messages_mentions(r, message, logfile, mods, history)
+
+        except Exception as e:
+            log_it(logfile, str(e))
 
 
 # Check old messages for posts that have since been flaired correctly
@@ -75,7 +84,7 @@ if __name__ == "__main__":
                 log_it(logfile, "Checking submissions...")
                 get_posts(r)
 
-                log_it(logfile, "Checking inbox...")
+                log_it(logfile, "Checking inbox/mentions...")
                 check_messages(r)
 
                 log_it(logfile, "Checking comments...")
