@@ -8,6 +8,7 @@ import datahandler
 from config import config
 from bot_login import bot_login
 from log_it import log_it, getFileName
+import matchthread
 
 import flair
 import mentions
@@ -89,6 +90,9 @@ if __name__ == "__main__":
 
                 log_it(logfile, "Checking comments...")
                 check_comments(r)
+
+                log_it(logfile, "Checking for match threads...")
+                matchthread.check_for_match_thread(r, logfile)
 
                 log_it(logfile, "Finished task!\n---------------------------\n")
 
