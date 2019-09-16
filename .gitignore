@@ -4,3 +4,4 @@ _pychache_/*
 */data/*
 *.lnk
 desktop.ini
+*.pickle
