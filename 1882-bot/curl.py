@@ -68,7 +68,7 @@ def messages_respond(r, message, logfile):
     # log_it(logfile, "\tChecking requests...")
     try :
         if message.subject.lower() == "stats":
-            log_it(logfile, "\t\tStats Request - responding...")
+            log_it(logfile, "\tStats Request - responding...")
             pattern = re.compile(r"([\[\]\(\*\|])")
 
             retmsg = "Hey **" + str(message.author) + "**,  \n\nHere are the latest stats for the sidebar:\n\n"
