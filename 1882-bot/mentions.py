@@ -5,11 +5,6 @@ from log_it import log_it
 import re
 import datetime
 
-
-
-# TESTING
-import logging
-
 def messages_mentions(r, message, logfile, mods, history):
     # Get important variables
     comment = r.comment(id=message.id)
@@ -32,7 +27,6 @@ def messages_mentions(r, message, logfile, mods, history):
                     widgets = r.subreddit(config["sub_name"]).widgets
                     for widget in widgets.sidebar :
                         if widget.shortName == config["mention_resetthecounter_widgetname"] :
-                            log_it(logfile, "Test: found widget")
                             # Update and execute
                             newtext = generate_widget(submission, widget.text)
                             widget.mod.update(text=newtext[0])
