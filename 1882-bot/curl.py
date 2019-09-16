@@ -65,7 +65,6 @@ def get_scorers():
 
 
 def messages_respond(r, message, logfile):
-    # log_it(logfile, "\tChecking requests...")
     try :
         if message.subject.lower() == "stats":
             log_it(logfile, "\tStats Request - responding...")
