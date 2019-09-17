@@ -1,5 +1,6 @@
 *.pyc
-_pychache_/*
+/__pychache__/*
+*/__pycache__/*
 */logs/*.log
 */data/*
 *.lnk
