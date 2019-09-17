@@ -5,6 +5,46 @@ import re
 from bs4 import BeautifulSoup
 from config import config
 
+def prematch_thread(r, logfile, url="https://www.bbc.com/sport/football/49719155"):
+    if not url:
+        url = 'https://www.bbc.com/sport/football/49719155'
+
+    r = requests.get(url)
+    if r :
+        if r.status_code is 200 :
+            try:
+                html_doc = r.content
+                soup = BeautifulSoup(html_doc, 'html.parser')
+                fixture = soup.find("div", class_="fixture__wrapper")
+                teams = fixture.find_all("abbr", class_="fixture__team-name-trunc")
+                content = []
+                for para in soup.find("div", id="story-body").find_all(["p", "h3"]):
+                    if para.name == "p":
+                        content.append(str(para.get_text().strip()))
+                    elif para.name == "h3" :
+                        content.append("##"+str(para.get_text().strip()))
+
+                teams = [teams[0].get_text().strip(), teams[1].get_text().strip()]
+                time = str(fixture.find("span", class_="fixture__number--time").get_text().strip())
+                date = str(soup.find("time", class_="fixture__date").get_text().strip()).title()
+                comp = str(soup.find("div", class_="fixture_date-time-wrapper").find("span", class_="fixture__title").get_text().strip()).title()
+
+                title = "Pre-Match Thread: " + teams[0] + " v " + teams[1] + ", " + comp + " (" + date + ")"
+                body = "#" + teams[0] + " vs " + teams[1]
+                body += "\n\n##" + comp + ", " + date + " at " + time
+                body += "\n\n" + ("\n\n".join(content))
+
+                return [title, body]
+
+            except Exception as e:
+                log_it("\tCould not post thread: " + str(e))
+                return False
+        else :
+            log_it(logfile, "\tCould not post thread: " + str(r.status_code) + " response code")
+            return False
+    else :
+        log_it(logfile, "\tCould not post thread: could not connect")
+        return False
 
 def get_table():
     url = 'https://www.theguardian.com/football/premierleague/table'
@@ -32,9 +72,11 @@ def get_table():
 
             return "  \n".join(retdata)
         else :
-            log_it(logfile, "Error - received " + str(r.status_code) + " response code")
+            log_it(logfile, "\tCould not get table: " + str(r.status_code) + " response code")
+            return False
     else :
-        log_it(logfile, "Error - could not connect")
+        log_it(logfile, "\tCould not get table: could not connect")
+        return False
 
 def get_scorers():
     url = config["curl_stat_url"]
@@ -59,21 +101,31 @@ def get_scorers():
             return "  \n".join(retdata) + "\n\n" + "**G**oals, **A**ssists, **M**ins **p**er **G**oal, **S**hots, shot-goal **%**\n\nFigures for all competitions"
 
         else :
-            log_it(logfile, "Error - received " + str(r.status_code) + " response code")
+            log_it(logfile, "\tCould not get scorers: " + str(r.status_code) + " response code")
+            return False
     else :
-        log_it(logfile, "Error - could not connect")
+        log_it(logfile, "\tCould not get scorers: could not connect")
+        return False
 
 
 def messages_respond(r, message, logfile):
-    try :
-        if message.subject.lower() == "stats":
-            log_it(logfile, "\tStats Request - responding...")
-            pattern = re.compile(r"([\[\]\(\*\|])")
+    if message.subject.lower() == "stats":
+        log_it(logfile, "\tStats Request - responding...")
+        pattern = re.compile(r"([\[\]\(\*\|])")
 
-            retmsg = "Hey **" + str(message.author) + "**,  \n\nHere are the latest stats for the sidebar:\n\n"
-            retmsg = retmsg + "#Table\n\n" + pattern.sub(r"\\\1", get_table()) + "\n\n---\n\n"
-            retmsg = retmsg + "#Scorers\n\n" + pattern.sub(r"\\\1", get_scorers()) + "\n\n --- \n\n COYS!"
-            message.reply(retmsg)
+        retmsg = "Hey **" + str(message.author) + "**,  \n\nHere are the latest stats for the sidebar:\n\n"
+        retmsg = retmsg + "#Table\n\n" + pattern.sub(r"\\\1", get_table()) + "\n\n---\n\n"
+        retmsg = retmsg + "#Scorers\n\n" + pattern.sub(r"\\\1", get_scorers()) + "\n\n --- \n\n COYS!"
+        message.reply(retmsg)
+        message.mark_read()
+    elif message.subject.split(": ")[0].strip().lower() == "prematchthread" :
+        log_it(logfile, "\tPrematch Thread - posting...")
+        url = message.subject.split(": ")[1].strip()
+        post = prematch_thread(r, logfile, url)
+        if not post:
+            log_it(logfile, "\tCould not post thread!")
+        else :
+            submission = r.subreddit(config["sub_name"]).submit(post[0], selftext=post[1], flair_id=config["prematchthread_flair_id"], flair_text=config["prematchthread_flair_text"])
+            submission.mod.sticky()
+            message.reply("Hey **" + str(message.author) + "**,\n\nI've posted the thread! Check it out here: https://reddit.com/r/" + config["sub_name"] + "/comments/" + str(submission) + "/-/")
             message.mark_read()
-    except Exception as e:
-        log_it(logfile, "Error: " + str(e))

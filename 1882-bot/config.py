@@ -60,5 +60,8 @@ config = {
     "mention_resetthecounter_reply_user" : "Thanks for the heads up, I'll alert the mods.\n\nCOYS",
     "mention_resetthecounter_flair_id" : "4b9c8952-7168-11e8-833e-0e6be7fce3be",
     "mention_resetthecounter_flair_text" : "Reset the Counter",
-    "mention_resetthecounter_widgetname" : "Ticket Question Free Since..."
+    "mention_resetthecounter_widgetname" : "Ticket Question Free Since...",
+
+    "prematchthread_flair_id" : "3e7c5ad6-327a-11e8-a1d2-0ea44711638e",
+    "prematchthread_flair_text" :  "PreMatch Thread"
 }
