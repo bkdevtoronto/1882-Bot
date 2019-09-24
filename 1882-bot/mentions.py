@@ -5,6 +5,38 @@ from log_it import log_it
 import re
 import datetime
 
+def generate_widget(submission, original):
+    olddate = re.findall("\- by u\/[^\s]* on (.*)", original)[0]
+    newdate = datetime.datetime.today().strftime("%d %b %Y")
+
+    record = int(re.findall("\*\*RECORD\: ([^\s]*)\sDAYS\*\*", original)[0])
+    untildate = re.findall("\*\(until ([^\)]*)\)\*", original)[0].strip()
+
+    author = "[deleted]" if (submission.author is None) else submission.author
+
+    d1 = datetime.datetime.strptime(olddate.strip(), "%d %b %Y")
+    d2 = datetime.datetime.today()
+    days_ago = abs((d2 - d1).days)
+
+    if record < days_ago:
+        record = days_ago
+        untildate = newdate.strptime("%d %b %Y")
+
+    newtext = "[" + submission.title + "]"
+    newtext = newtext + "(https://reddit.com/r/" + config["sub_name"] + "/comments/" + submission.id + ")"
+    newtext = newtext + " - by u/" + str(author)
+    newtext = newtext + " on " + newdate
+    newtext = newtext + "  \n*posted " + str(days_ago) + " days after the one before*"
+    newtext = newtext + "  \n\n**RECORD: " + str(record) + " DAYS**"
+    newtext = newtext + "  \n*(until " + untildate + ")*"
+    newtext = newtext + "  \n\n*[Why is this here?](https://reddit.com/r/coys/comments/7uvbp4/)*  "
+
+    pattern = re.compile(r"([\[\]\(\*])")
+    msgtext = pattern.sub(r"\\\1", newtext)
+
+    return newtext, msgtext
+
+
 def messages_mentions(r, message, logfile, mods, history):
     # Get important variables
     comment = r.comment(id=message.id)
@@ -85,35 +117,3 @@ def message_resetthecounter(r, message, logfile) :
         message.mark_read()
     except Exception as e:
         log_it(logfile, str(e))
-
-
-def generate_widget(submission, original):
-    olddate = re.findall("\- by u\/[^\s]* on (.*)", original)[0]
-    newdate = datetime.datetime.today().strftime("%d %b %Y")
-
-    record = int(re.findall("\*\*RECORD\: ([^\s]*)\sDAYS\*\*", original)[0])
-    untildate = re.findall("\*\(until ([^\)]*)\)\*", original)[0].strip()
-
-    author = "[deleted]" if (submission.author is None) else submission.author
-
-    d1 = datetime.datetime.strptime(olddate.strip(), "%d %b %Y")
-    d2 = datetime.datetime.today()
-    days_ago = abs((d2 - d1).days)
-
-    if record < days_ago:
-        record = days_ago
-        untildate = newdate.strptime("%d %b %Y")
-
-    newtext = "[" + submission.title + "]"
-    newtext = newtext + "(https://reddit.com/r/" + config["sub_name"] + "/comments/" + submission.id + ")"
-    newtext = newtext + " - by u/" + str(author)
-    newtext = newtext + " on " + newdate
-    newtext = newtext + "  \n*posted " + str(days_ago) + " days after the one before*"
-    newtext = newtext + "  \n\n**RECORD: " + str(record) + " DAYS**"
-    newtext = newtext + "  \n*(until " + untildate + ")*"
-    newtext = newtext + "  \n\n*[Why is this here?](https://reddit.com/r/coys/comments/7uvbp4/) *"
-
-    pattern = re.compile(r"([\[\]\(\*])")
-    msgtext = pattern.sub(r"\\\1", newtext)
-
-    return newtext, msgtext
