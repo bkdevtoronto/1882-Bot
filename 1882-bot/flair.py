@@ -7,6 +7,10 @@ from log_it import log_it
 
 def messages_flair(r, message, logfile) :
     subject = message.subject.split()
+    if len(subject) < 2:
+        log_it(logfile, "\tCould not read subject: " + str(message.id))
+        message.mark_read()
+        return False
     submission = r.submission(id=subject[1])
     if submission is None :
         log_it(logfile, "\tCouldn't find submission!")
