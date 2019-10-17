@@ -55,6 +55,7 @@ def check_for_match_thread(r, logfile):
         teams = text[0].split(" v ")
         now = datetime.datetime.now(datetime.timezone.utc)
         diff = parser.parse(event['start']['dateTime']) - now
+        history = datahandler.get("matchthreads")
 
         if teams[0] is "Tottenham Hotspur" :
             home = True
@@ -70,11 +71,14 @@ def check_for_match_thread(r, logfile):
 
         if diff.days < 1 and int(diff.seconds / 60) < 5:
             # Fire if fewer than 1 day and less than 5 minutes
-            history = datahandler.get("matchthreads")
             if str(event['start']) not in history:
                 log_it(logfile, "\tFound match within 5 minutes! Sending message to MatchThreader...")
                 subject = "Match Thread"
                 message = teams[0] + " vs " + teams[1] +" for /r/" + config["sub_name"]
                 r.redditor('MatchThreadder').message(subject, message)
                 datahandler.addTo("matchthreads", str(event['start']))
+                break
+        elif diff.days < 1 and int(diff.seconds / 60) < 20 :
+            if str(event['start']) not in history:
+                log_it(logfile, "\tMatch starting in " + str(int(diff.seconds/60)) + " mins...")
                 break
