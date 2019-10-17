@@ -8,6 +8,7 @@ import datahandler
 from config import config
 from bot_login import bot_login
 from log_it import log_it, getFileName
+from timeout import timeout
 import matchthread
 
 import flair
@@ -22,7 +23,7 @@ def get_posts(r):
     try:
         for submission in r.subreddit(config["sub_name"]).new(limit=30):
             if submission.link_flair_text is None and config["moderate_flair"] is True:
-                comment = submission.reply("**Please flair your post!**\n\n" + config["flair_submission_reply"] + "\n\nOnce you've flaired your post, [send **" + config["bot_name"] + "** a message by clicking here.](https://www.reddit.com/message/compose/?to=" + config["bot_username"] + "&message=Post%20has%20been%20flaired!&subject=Flaired:%20" + submission.id + "). *Don\'t change the subject line so that **" + config["bot_name"] + "** knows what to do!*")
+                comment = submission.reply("**Please flair your post!**\n\n" + config["flair_submission_reply"] + "\n\n" + config["bot_name"] + " will checkup on your post in a minute or two and will approve your post if it's been flaired.")
                 comment.mod.distinguish(sticky=True)
                 submission.mod.remove()
                 log_it(logfile, "\tAlerted no-flair on https://reddit.com/r/" + config["sub_name"] + "/comments/" + submission.id)
@@ -37,8 +38,8 @@ def check_messages(r):
     try:
         for message in r.inbox.unread(limit=None):
             subject = message.subject.split()
-            if config["moderate_flair"] is True and subject[0] == "Flaired:":
-                flair.messages_flair(r, message, logfile)
+            # if config["moderate_flair"] is True and subject[0] == "Flaired:":
+            #     flair.messages_flair(r, message, logfile)
 
             if config["moderate_mentions"] is True and subject[0] == "ResetTheCounter:" :
                 mentions.message_resetthecounter(r, message, logfile)
