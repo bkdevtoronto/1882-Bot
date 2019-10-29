@@ -39,7 +39,7 @@ config = {
 
     # [string] Auto reply body for submissions which don't have a flair
     # NB: Already has header and footer
-    "flair_submission_reply" : "In /r/coys, we're having a trial period where we require all posts to be flaired appropriately. [You can find out more details and discuss this here](https://reddit.com/r/coys/comments/cw3n72/).",
+    "flair_submission_reply" : "In /r/coys, all posts need to be flaired appropriately. [You can find out more details here](https://reddit.com/r/coys/comments/cw3n72/).",
 
     # [string] Append this to the auto-edit message to 1882-Bot's comment when a user flairs their post
     # NB: Already has body
